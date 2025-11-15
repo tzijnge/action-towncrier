@@ -1,44 +1,53 @@
-name: 'TODO: Run <linter-name> with reviewdog'
-description: 'TODO: 🐶 Run <linter-name> with reviewdog on pull requests to improve code review experience.'
-author: 'TODO: <your-name>'
+name: "Run towncrier with reviewdog"
+description: "🐶 Run towncrier with reviewdog on pull requests to check for missing news fragments"
+author: "T. Zijnge"
 inputs:
   github_token:
-    description: 'GITHUB_TOKEN'
-    default: '${{ github.token }}'
+    description: "GITHUB_TOKEN"
+    default: "${{ github.token }}"
   workdir:
-    description: 'Working directory relative to the root directory.'
-    default: '.'
+    description: "Working directory relative to the root directory."
+    default: "."
   ### Flags for reviewdog ###
   level:
-    description: 'Report level for reviewdog [info,warning,error]'
-    default: 'error'
+    description: "Report level for reviewdog [info,warning,error]"
+    default: "error"
   reporter:
-    description: 'Reporter of reviewdog command [github-pr-check,github-check,github-pr-review].'
-    default: 'github-pr-check'
+    description: "Reporter of reviewdog command [github-pr-check,github-check,github-pr-review]."
+    default: "github-pr-check"
   filter_mode:
     description: |
       Filtering mode for the reviewdog command [added,diff_context,file,nofilter].
       Default is added.
-    default: 'added'
+    default: "added"
   fail_level:
     description: |
       If set to `none`, always use exit code 0 for reviewdog. Otherwise, exit code 1 for reviewdog if it finds at least 1 issue with severity greater than or equal to the given level.
       Possible values: [none,any,info,warning,error]
       Default is `none`.
-    default: 'none'
+    default: "none"
   reviewdog_flags:
-    description: 'Additional reviewdog flags'
-    default: ''
-  ### Flags for <linter-name> ###
-  locale:
-    description: '-locale flag of misspell. (US/UK)'
-    default: ''
+    description: "Additional reviewdog flags"
+    default: ""
+  ### Flags for towncrier ###
+  compare_with:
+    description: "--compare-with flag of towncrier check command"
+    default: "origin/main"
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: "composite"
+  steps:
+    - run: $GITHUB_ACTION_PATH/entrypoint.sh
+      shell: bash
+      env:
+        INPUT_GITHUB_TOKEN: ${{ inputs.github_token }}
+        INPUT_WORKDIR: ${{ inputs.workdir }}
+        INPUT_LEVEL: ${{ inputs.level }}
+        INPUT_REPORTER: ${{ inputs.reporter }}
+        INPUT_FILTER_MODE: ${{ inputs.filter_mode }}
+        INPUT_REVIEWDOG_FLAGS: ${{ inputs.reviewdog_flags }}
+        INPUT_TOWNCRIER_COMPARE_WITH: ${{ inputs.compare_with }}
 
 # Ref: https://haya14busa.github.io/github-action-brandings/
-# TODO: update branding if you want.
 branding:
-  icon: 'check'
-  color: 'blue'
+  icon: "check"
+  color: "blue"

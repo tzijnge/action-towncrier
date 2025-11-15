@@ -50,6 +50,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
       - uses: reviewdog/action-towncrier@v1.0.0 # v1.0.0
         with:
           github_token: ${{ secrets.github_token }}
@@ -58,4 +60,11 @@ jobs:
           # Change reporter level if you need.
           # GitHub Status Check won't become failure with warning.
           level: warning
+          fail_level: any
+          # Change the branch that towncrier uses for comparison
+          compare_with: origin/main
 ```
+
+> NOTE: Check out with fetch depth 0 required for towncrier
+
+> NOTE: When towncrier is not installed already, this action will install the latest version from pip

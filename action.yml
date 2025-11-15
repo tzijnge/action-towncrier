@@ -9,6 +9,9 @@ inputs:
     description: "Working directory relative to the root directory."
     default: "."
   ### Flags for reviewdog ###
+  tool_name:
+    description: "Tool name to use for reviewdog reporter."
+    default: "towncrier"
   level:
     description: "Report level for reviewdog [info,warning,error]"
     default: "error"
@@ -41,6 +44,7 @@ runs:
       env:
         INPUT_GITHUB_TOKEN: ${{ inputs.github_token }}
         INPUT_WORKDIR: ${{ inputs.workdir }}
+        INPUT_TOOL_NAME: ${{ inputs.tool_name }}
         INPUT_LEVEL: ${{ inputs.level }}
         INPUT_REPORTER: ${{ inputs.reporter }}
         INPUT_FILTER_MODE: ${{ inputs.filter_mode }}

@@ -22,7 +22,7 @@ towncrier --version
 echo "[action-towncrier] Checking for missing news fragments with towncrier and reviewdog..."
 exit_val="0"
 
-towncrier check --compare_with ${INPUT_TOWNCRIER_COMPARE_WITH}
+towncrier check --compare-with ${INPUT_TOWNCRIER_COMPARE_WITH}
   /tmp/reviewdog -efm="%f:%l:%c: %m" \
     -name="${INPUT_TOOL_NAME}" \
     -reporter="${INPUT_REPORTER}" \
